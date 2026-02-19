@@ -38,5 +38,52 @@
  *   // => { selected: [{ color: "golden", length: 5, cost: 250 }], totalLength: 5, totalCost: 250 }
  */
 export function diwaliLightsPlan(lightStrings, budget) {
-  // Your code here
+  if (!Array.isArray(lightStrings) || typeof budget !== "number" || budget <= 0){
+    return {selected: [], totalLength: 0, totalCost: 0}
+  }
+
+  let lightStringsWCost = [];
+  let totalCost = 0;
+
+  for (const colorString of lightStrings){
+    const stringWCost = {...colorString}
+
+    switch (colorString.color){
+      case "golden":
+        stringWCost["cost"] = colorString.length * 50;
+        totalCost += stringWCost["cost"];
+        break;
+
+      case "multicolor":
+        stringWCost["cost"] = colorString.length * 40;
+        totalCost += stringWCost["cost"];
+        break;
+
+      case "white":
+        stringWCost["cost"] = colorString.length * 30;
+        totalCost += stringWCost["cost"];
+        break;
+
+      default:
+        stringWCost["cost"] = colorString.length * 35;
+        totalCost += stringWCost["cost"];
+        break;
+    }
+
+    lightStringsWCost.push(stringWCost);
+  }
+
+  while (totalCost > budget){
+    const removedString = lightStringsWCost.pop();
+
+    totalCost -= removedString.cost;
+  }
+
+  const totalPurchasedLength = lightStringsWCost.reduce((totalLength, light) => totalLength + light.length, 0);
+
+  return {
+    selected: lightStringsWCost,
+    totalLength: totalPurchasedLength,
+    totalCost: totalCost
+  }
 }
