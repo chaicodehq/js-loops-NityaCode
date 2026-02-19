@@ -31,5 +31,55 @@
  *   // => { totalRuns: 0, totalBalls: 0, wickets: 0, fours: 0, sixes: 0 }
  */
 export function cricketScoreboard(balls) {
-  // Your code here
+  if (!Array.isArray(balls) || balls.length === 0){
+    return {
+      totalRuns: 0,
+      totalBalls: 0,
+      wickets: 0,
+      fours: 0,
+      sixes: 0
+    }
+  }
+
+  let countRuns = 0;
+  let countBalls = 0;
+  let countWickets = 0;
+  let countFours = 0;
+  let countSixes = 0;
+
+  for (let ball of balls){
+
+    if (countWickets > 9) {
+      break;
+    }
+
+    switch (ball) {
+      case -1:
+        countWickets++;
+        break;
+      
+      case 4:
+        countRuns += ball;
+        countFours++;
+        break;
+
+      case 6:
+        countRuns += ball;
+        countSixes++;
+        break;
+
+      default:
+        countRuns += ball;
+        break;
+    }
+    countBalls++;
+  }
+
+  return {
+    totalRuns: countRuns,
+    totalBalls: countBalls,
+    wickets: countWickets,
+    fours: countFours,
+    sixes: countSixes
+  }
 }
