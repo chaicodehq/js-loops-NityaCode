@@ -37,5 +37,76 @@
  *   // Sorted: CSK(3), RCB(1), MI(0)
  */
 export function iplPointsTable(matches) {
-  // Your code here
+  if (!Array.isArray(matches) || matches.length === 0){
+    return [];
+  }
+
+  const teamStatsObj = matches.reduce((teamAccumulator, match) => {
+    function calculateTeamDada(teamName, matchStats){
+      let team = {
+        played: 0,
+        won: 0,
+        lost: 0,
+        tied: 0,
+        noResult: 0,
+        points: 0
+      }
+
+      if (teamAccumulator.hasOwnProperty(teamName)){
+        team = {...teamAccumulator[teamName]}
+      }
+
+      for (const [key, value] of Object.entries(matchStats)){
+        team[key] = team[key] + value;
+      }
+
+      teamAccumulator[teamName] = team;
+    }
+
+    switch (match.result){
+      case "win":
+        let winnerTeam = match.winner;
+        let lostTeam = match.winner === match.team1 ? match.team2 : match.team1;
+
+        calculateTeamDada(winnerTeam, {played: 1, won: 1, points: 2});
+        calculateTeamDada(lostTeam, {played: 1, lost: 1})
+      break;
+
+      case "tie":
+        calculateTeamDada(match.team1, {played: 1, tied: 1, points: 1});
+        calculateTeamDada(match.team2, {played: 1, tied: 1, points: 1})
+      break;
+
+      case "no_result":
+        calculateTeamDada(match.team1, {played: 1, noResult: 1, points: 1});
+        calculateTeamDada(match.team2, {played: 1, noResult: 1, points: 1})
+      break;
+    };
+
+    return teamAccumulator;
+      
+  }, {});
+
+  // Convert team data to list
+  let genTeamInfoList = [];
+
+  for (const teamName in teamStatsObj){
+    let teamInfo = {team: teamName, ...teamStatsObj[teamName]}
+
+    genTeamInfoList.push(teamInfo);
+  };
+
+  // Sort the list
+  genTeamInfoList.sort((a, b) => {
+    const pointsCompare = b.points - a.points;
+
+    if (pointsCompare !== 0){
+      return pointsCompare
+    }
+
+    return a.team.localeCompare(b.team);
+  });
+
+  return genTeamInfoList;
 }
+
