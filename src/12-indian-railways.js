@@ -45,5 +45,65 @@
  *   // => [{ name: "Rahul", trainNumber: "12345", class: "sleeper", status: "confirmed" }]
  */
 export function railwayReservation(passengers, trains) {
-  // Your code here
+  if (!Array.isArray(passengers) || passengers.length === 0 || !Array.isArray(trains) || trains.length === 0){
+    return [];
+  }
+
+  let bookingInfo = [];
+
+  for (const ticket of passengers){
+    let booking = {
+      name: ticket.name,
+      trainNumber: ticket.trainNumber,
+      class: null,
+      status: "train_not_found"
+    }
+
+    for (const [index, train] of trains.entries()){
+      if(ticket.trainNumber === train.trainNumber){
+
+        if(train.seats[ticket.preferred] > 0){
+
+          booking.class = ticket.preferred;
+          booking.status = "confirmed";
+
+          trains[index].seats[ticket.preferred]--;
+
+        } else if (train.seats[ticket.fallback] > 0){
+
+          booking.class = ticket.fallback;
+          booking.status = "confirmed";
+
+          trains[index].seats[ticket.fallback]--;
+
+        } else {
+
+          booking.class = ticket.preferred;
+          booking.status = "waitlisted";
+          
+        }
+      }
+    }
+
+    bookingInfo.push(booking);
+  }
+
+  for(const train of trains){
+    console.log(train.trainNumber, train.seats);
+  }
+
+  return bookingInfo;
 }
+
+console.log(railwayReservation(
+  
+      [
+        { name: "A", trainNumber: "12301", preferred: "ac3", fallback: "sleeper" },
+        { name: "B", trainNumber: "12951", preferred: "ac3", fallback: "sleeper" },
+        { name: "C", trainNumber: "12301", preferred: "ac3", fallback: "sleeper" }
+      ],
+      [
+        { trainNumber: "12301", name: "Rajdhani", seats: { ac3: 1, sleeper: 2 } },
+        { trainNumber: "12951", name: "Mumbai Rajdhani", seats: { ac3: 1, sleeper: 3 } }
+      ]
+))
