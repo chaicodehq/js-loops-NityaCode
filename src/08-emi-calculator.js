@@ -72,5 +72,3 @@ export function calculateEMI(principal, monthlyRate, emi) {
 
   return {months: emiMonths, totalPaid: +totalPaid.toFixed(2), totalInterest: +(totalPaid - principal).toFixed(2)}
 }
-
-console.log(calculateEMI(1000, 0.01, 600))

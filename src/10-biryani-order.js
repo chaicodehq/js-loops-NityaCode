@@ -72,5 +72,3 @@ export function biryaniBatchProcessor(orders) {
     ordersProcessed: ordersProcessed - skippedOrders
   }
 }
-
-console.log(biryaniBatchProcessor([10]))

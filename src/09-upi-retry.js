@@ -65,5 +65,3 @@ export function upiRetry(outcomes) {
     totalWaitTime: totalWaitTime
   }
 }
-
-console.log(["success"])

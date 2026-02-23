@@ -94,16 +94,3 @@ export function railwayReservation(passengers, trains) {
 
   return bookingInfo;
 }
-
-console.log(railwayReservation(
-  
-      [
-        { name: "A", trainNumber: "12301", preferred: "ac3", fallback: "sleeper" },
-        { name: "B", trainNumber: "12951", preferred: "ac3", fallback: "sleeper" },
-        { name: "C", trainNumber: "12301", preferred: "ac3", fallback: "sleeper" }
-      ],
-      [
-        { trainNumber: "12301", name: "Rajdhani", seats: { ac3: 1, sleeper: 2 } },
-        { trainNumber: "12951", name: "Mumbai Rajdhani", seats: { ac3: 1, sleeper: 3 } }
-      ]
-))
