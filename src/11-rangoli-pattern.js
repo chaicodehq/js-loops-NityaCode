@@ -36,5 +36,37 @@
  *   rangoli(3) // => ["  *", " * *", "* * *", " * *", "  *"]
  */
 export function rangoli(n) {
-  // Your code here
+  if (typeof n !== "number" || !Number.isInteger(n) || n <= 0){
+    return [];
+  }
+
+  let diamond = [];
+
+  for (let r = 1; r <= 2 * n - 1; r++){
+    let row = "";
+    let spaces = Math.abs(n - r);
+    let hasLeadingStar = false;
+    
+    for (let char = 1; char <= n; char++){
+      if (spaces > 0){
+
+        row += " ";
+        spaces--;
+
+      } else {
+      
+        if (hasLeadingStar){
+          row += " *";
+          hasLeadingStar = true;
+        } else {
+          row += "*";
+          hasLeadingStar = true;
+        }
+      }
+    }
+
+    diamond.push(row);
+  }
+
+  return diamond;
 }
